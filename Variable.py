@@ -1,0 +1,16 @@
+class Variable:
+
+    def __init__(self, name, value, sets):
+        self.name = name
+        self.value = value
+        self.sets = sets
+
+    def calc_membership(self):
+        for set in self.sets:
+            if set != None:
+                if set.check_range(self.value, set.range):
+                    set.membership = set.calc_membership(self.value)
+                else:
+                    set.membership = 0
+                print(self.value, ", " , set.name, set.membership)
+
