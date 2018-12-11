@@ -17,7 +17,7 @@ class Set:
         for line in self.lines:
             if self.check_range(val, line.range):
                 memship = line.get_intersection(val)
-                break;
+                break
         return memship
 
     def calc_range(self):
@@ -30,14 +30,22 @@ class Set:
             return False
 
     def calc_centroid(self):
-        pass
+        a = 0
+        cx = 0
+        for i in range(0, self.points.size - 1):
+            a = a + (self.points[i].x * self.points[i + 1].y - self.points[i + 1].x * self.points[i].y)
+            cx = cx + ((self.points[i].x + self.points[i + 1].x) * (
+                        self.points[i].x * self.points[i + 1].y - self.points[i + 1].x * self.points[i].y))
+        a = 0.5 * a
+        return cx / (6 * a)
 
     def calc_lines(self):
         lines = np.empty([3, ], dtype=object)
         bool_strt = True
         bool_end = True
         for i in range(self.points.shape[0] - 1):
-            if self.points[0].x == self.points[1].x and self.points[self.points.shape[0] - 1].x == self.points[self.points.shape[0] - 2].x:
+            if self.points[0].x == self.points[1].x and self.points[self.points.shape[0] - 1].x == self.points[
+                self.points.shape[0] - 2].x:
                 lines[0] = Line(self.points[1], self.points[2])
                 break
             elif self.points[0].x == self.points[1].x and bool_strt:
@@ -47,8 +55,5 @@ class Set:
                 lines[0] = Line(self.points[0], self.points[1])
                 bool_end = False
             else:
-                lines[i] = Line(self.points[i], self.points[i+1])
+                lines[i] = Line(self.points[i], self.points[i + 1])
         return lines
-
-
-
